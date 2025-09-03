@@ -1,0 +1,52 @@
+name: monitor-k8s CI/CD Pipiline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: |
+          python3 -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 79 chars wide
+          flake8 . --count --exit-zero --max-complexity 10 --max-line-length 127 --statistics
+      - name: Test with pytest
+        run: |
+          pytest  --maxfail=1 --disable-warnings -q
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true  # Push the image to Docker Hub
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
+    name: slack notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Slack
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          fields: repo,commit,author,ref,workflow,job,took
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_USERNAME: 'github-actions'
+          SLACK_ICON_EMOJI: ':rocket:'
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # optional  
+                   
+        
