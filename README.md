@@ -1,6 +1,6 @@
 # AKS Monitoring with Terraform, Grafana, and Prometheus
 
-This project demonstrates infrastructure-as-code approach to deploy Azure Kubernetes Service (AKS) with monitoring capabilities using Terraform, Prometheus, and Grafana.
+This project demonstrates infrastructure-as-code approach to deploy Azure Kubernetes Service (AKS) with monitoring capabilities using Terraform, Prometheus and Grafana.
 
 ## 🏗️ Architecture
 
