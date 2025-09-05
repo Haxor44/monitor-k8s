@@ -30,23 +30,22 @@ jobs:
       - name: Test with pytest
         run: |
           pytest  --maxfail=1 --disable-warnings -q
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v2
-        with:
-          push: true  # Push the image to Docker Hub
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
-    name: slack notification
-    runs-on: ubuntu-latest
-    steps:
-      - name: Notify Slack
+          - name: Build and push Docker image
+            uses: docker/build-push-action@v2
+            with:
+              push: true  # Push the image to Docker Hub
+              tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE }}:latest
+    
+
+      - name: Slack Notification
         uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
           fields: repo,commit,author,ref,workflow,job,took
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          SLACK_USERNAME: 'github-actions'
+          SLACK_USERNAME: monitor-k8s-CI/CD
           SLACK_ICON_EMOJI: ':rocket:'
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # optional  
+          SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
                    
         
