@@ -1,6 +1,10 @@
 # AKS Monitoring with Terraform, Grafana, and Prometheus
 
-This project demonstrates infrastructure-as-code approach to deploy Azure Kubernetes Service (AKS) with monitoring capabilities using Terraform, Prometheus and Grafana.
+This project demonstrates infrastructure-as-code approach to deploy Azure Kubernetes Service (AKS) with monitoring capabilities using Terraform, Prometheus and Grafana, as well as sending slack notifications for successful commits.
+
+<img width="1531" height="689" alt="Screenshot from 2025-09-05 22-55-03" src="https://github.com/user-attachments/assets/27e2cdf6-f44a-48dc-8bce-3dc6dacb57b2" />
+
+
 
 ## 🏗️ Architecture
 
@@ -75,6 +79,14 @@ kubectl port-forward --namespace monitoring service/prometheus-grafana 3000:80
 
 Access Grafana at `http://localhost:3000` with username `admin` and the password obtained above.
 
+<img width="1533" height="824" alt="Screenshot from 2025-07-29 01-47-55" src="https://github.com/user-attachments/assets/8c775602-da4c-43f1-a5f7-2aca1dffed2a" />
+
+<img width="1533" height="824" alt="Screenshot from 2025-07-29 01-47-14" src="https://github.com/user-attachments/assets/39d0ecdd-eda8-4c00-a2ac-beae083f1ada" />
+
+
+<img width="1533" height="824" alt="Screenshot from 2025-07-29 01-46-23" src="https://github.com/user-attachments/assets/77125860-b796-411c-bf99-351d2739cf12" />
+
+
 ## 📁 Project Structure
 
 ```
@@ -130,6 +142,8 @@ The Terraform configuration provisions:
 The Terraform configuration can be integrated with CI/CD pipelines:
 
 ### GitHub Actions Example
+<img width="1531" height="689" alt="Screenshot from 2025-09-05 23-04-56" src="https://github.com/user-attachments/assets/98666f56-dff1-45d2-a19d-bdad0ad0acb6" />
+
 ```yaml
 name: Deploy to AKS
 on:
